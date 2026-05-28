@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Formula Converter - Pro Edition</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body { 
+            font-family: 'Prompt', sans-serif; 
+            background-color: #0B1120;
+            background-image: radial-gradient(ellipse at top, #1e293b, #0B1120);
+        }
+        .font-mono { 
+            font-family: 'Fira Code', monospace; 
+        }
+        
+        /* ตกแต่ง Scrollbar ให้เข้ากับ Dark Theme */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Animation เล็กๆ เวลากดปุ่ม */
+        .btn-press:active { transform: scale(0.98); }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col items-center py-10 px-4">
+
+    <div class="max-w-4xl w-full">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold mb-3 tracking-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                    Excel Formula
+                </span> 
+                <span class="text-white">Converter</span>
+            </h1>
+            <p class="text-slate-400 font-light tracking-wide">เครื่องมือแปลงสูตรอัตโนมัติ สำหรับลดเวลาและข้อผิดพลาด</p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-1.5 rounded-xl border border-slate-700/50 flex space-x-1 mb-6 shadow-lg shadow-black/20">
+            <button onclick="switchTab('non-cisco')" id="tab-non-cisco" class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/20">
+                ⚡ NON-CISCO
+            </button>
+            <button onclick="switchTab('cisco')" id="tab-cisco" class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50">
+                ⚙️ CISCO
+            </button>
+        </div>
+
+        <div class="space-y-6">
+            
+            <div class="bg-slate-800/40 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-slate-700/50 shadow-xl shadow-black/40">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-3">
+                    <h2 class="text-lg font-semibold text-slate-200 flex items-center">
+                        <span id="badgeTab" class="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider">โหมด: NON-CISCO</span>
+                        วางสูตรต้นฉบับ
+                    </h2>
+                    <span id="formulaHint" class="text-xs text-slate-400 font-mono bg-slate-900/50 px-3 py-1.5 rounded-md border border-slate-700">
+                        ($M$แถว*$Q$แถว) ➡️ ($M$แถว+1*$Q$16)
+                    </span>
+                </div>
+                
+                <textarea id="inputFormula" rows="5" class="w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner" placeholder="วางสูตร Excel ที่ต้องการแปลงที่นี่..."></textarea>
+                
+                <div class="mt-5 flex justify-end">
+                    <button id="actionBtn" onclick="processFormula()" class="btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-blue-500/25">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        แปลงสูตรอัตโนมัติ
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/40 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-slate-700/50 shadow-xl shadow-black/40">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="text-lg font-semibold text-slate-200">ผลลัพธ์สูตรใหม่</h2>
+                    <button onclick="copyToClipboard()" id="copyBtn" class="btn-press text-sm bg-slate-700 hover:bg-slate-600 text-slate-200 font-medium py-2 px-5 rounded-lg transition-all duration-200 cursor-pointer border border-slate-600 hidden flex items-center shadow-md">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        คัดลอกสูตร
+                    </button>
+                </div>
+                
+                <div id="outputContainer" class="p-5 border border-dashed border-slate-600 rounded-xl font-mono text-sm text-slate-500 bg-slate-900/50 min-h-[120px] flex items-center justify-center text-center transition-all">
+                    ผลลัพธ์การแปลงสูตรจะแสดงที่นี่...
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let currentMode = 'non-cisco';
+
+        function switchTab(tabName) {
+            currentMode = tabName;
+            
+            const tabNonCisco = document.getElementById('tab-non-cisco');
+            const tabCisco = document.getElementById('tab-cisco');
+            const badgeTab = document.getElementById('badgeTab');
+            const formulaHint = document.getElementById('formulaHint');
+            const inputFormula = document.getElementById('inputFormula');
+            const actionBtn = document.getElementById('actionBtn');
+            
+            // เคลียร์ค่าเก่าทิ้งเมื่อสลับแท็บ
+            inputFormula.value = '';
+            resetOutput();
+
+            if (tabName === 'non-cisco') {
+                // UI แท็บ NON-CISCO
+                tabNonCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/20';
+                tabCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50';
+                
+                badgeTab.innerText = 'โหมด: NON-CISCO';
+                badgeTab.className = 'bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider';
+                formulaHint.innerText = '($M$แถว*$Q$แถว) ➡️ ($M$แถว+1*$Q$16)';
+                
+                actionBtn.className = 'btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-blue-500/25 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900';
+                inputFormula.className = 'w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner';
+            } else {
+                // UI แท็บ CISCO
+                tabCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-purple-600 text-white shadow-lg shadow-purple-500/20';
+                tabNonCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50';
+                
+                badgeTab.innerText = 'โหมด: CISCO';
+                badgeTab.className = 'bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider';
+                formulaHint.innerText = '1+M$แถว ➡️ 1+M$แถว+1';
+                
+                actionBtn.className = 'btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-400 hover:to-purple-500 shadow-purple-500/25 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900';
+                inputFormula.className = 'w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner';
+            }
+        }
+
+        function processFormula() {
+            const inputElement = document.getElementById('inputFormula');
+            const formula = inputElement.value.trim();
+
+            if (!formula) {
+                showError('⚠️ กรุณาวางสูตรลงในช่องด้านบนก่อนกดแปลงสูตรครับ');
+                return;
+            }
+
+            if (currentMode === 'non-cisco') {
+                convertNonCisco(formula);
+            } else if (currentMode === 'cisco') {
+                convertCisco(formula);
+            }
+        }
+
+        function convertNonCisco(formula) {
+            const regex = /\(\s*\$M\$\s*(\d+)\s*\*\s*\$Q\$\s*(\d+)\s*\)/i;
+            const match = formula.match(regex);
+
+            if (match) {
+                const currentMRow = parseInt(match[1], 10);
+                const newMRow = currentMRow + 1;
+                const newQRow = 16; 
+                
+                const replacement = `($$M$$${newMRow}*$$Q$$${newQRow})`;
+                const updatedFormula = formula.replace(regex, replacement);
+                
+                showResult(updatedFormula, 'blue');
+            } else {
+                showError('❌ ตรวจไม่พบส่วนท้ายสูตรที่เป็นรูปแบบ ($M$แถว*$Q$แถว)');
+            }
+        }
+
+        function convertCisco(formula) {
+            const regex = /1\s*\+\s*M\$\s*(\d+)/i;
+            const match = formula.match(regex);
+
+            if (match) {
+                const currentMRow = parseInt(match[1], 10);
+                const newMRow = currentMRow + 1; 
+                
+                const replacement = `1+M$$${newMRow}`;
+                const updatedFormula = formula.replace(regex, replacement);
+                
+                showResult(updatedFormula, 'purple');
+            } else {
+                showError('❌ ตรวจไม่พบโครงสร้าง (1+M$แถว) ในสูตร');
+            }
+        }
+
+        function showResult(resultText, colorTheme) {
+            const outputContainer = document.getElementById('outputContainer');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            outputContainer.innerText = resultText;
+            copyBtn.classList.remove('hidden');
+
+            // ใช้สไตล์ Glassmorphism ในผลลัพธ์ที่สำเร็จ
+            if (colorTheme === 'purple') {
+                outputContainer.className = "p-5 border rounded-xl font-mono text-sm break-all text-left flex items-start justify-start border-purple-500/40 bg-purple-900/10 text-purple-200 shadow-inner transition-all";
+            } else {
+                outputContainer.className = "p-5 border rounded-xl font-mono text-sm break-all text-left flex items-start justify-start border-blue-500/40 bg-blue-900/10 text-blue-200 shadow-inner transition-all";
+            }
+        }
+
+        function showError(message) {
+            const outputContainer = document.getElementById('outputContainer');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            outputContainer.innerText = message;
+            outputContainer.className = "p-5 border rounded-xl font-mono text-sm flex items-center justify-center text-center whitespace-pre-line border-red-500/40 bg-red-900/10 text-red-400 shadow-inner transition-all";
+            copyBtn.classList.add('hidden');
+        }
+
+        function resetOutput() {
+            const outputContainer = document.getElementById('outputContainer');
+            const copyBtn = document.getElementById('copyBtn');
+            outputContainer.innerText = "ผลลัพธ์การแปลงสูตรจะแสดงที่นี่...";
+            outputContainer.className = "p-5 border border-dashed rounded-xl font-mono text-sm flex items-center justify-center text-center border-slate-600 bg-slate-900/50 text-slate-500 min-h-[120px] transition-all";
+            copyBtn.classList.add('hidden');
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputContainer').innerText;
+            const copyBtn = document.getElementById('copyBtn');
+
+            navigator.clipboard.writeText(outputText).then(() => {
+                const originalHtml = copyBtn.innerHTML;
+                
+                // เปลี่ยนสถานะปุ่มเป็นสีเขียวชั่วคราว
+                copyBtn.innerHTML = '<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> คัดลอกแล้ว!';
+                copyBtn.classList.replace('bg-slate-700', 'bg-emerald-600/90');
+                copyBtn.classList.replace('hover:bg-slate-600', 'hover:bg-emerald-500');
+                copyBtn.classList.replace('border-slate-600', 'border-emerald-500/50');
+                copyBtn.classList.replace('text-slate-200', 'text-white');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHtml;
+                    copyBtn.classList.replace('bg-emerald-600/90', 'bg-slate-700');
+                    copyBtn.classList.replace('hover:bg-emerald-500', 'hover:bg-slate-600');
+                    copyBtn.classList.replace('border-emerald-500/50', 'border-slate-600');
+                    copyBtn.classList.replace('text-white', 'text-slate-200');
+                }, 2000);
+            }).catch(err => {
+                showError('ไม่สามารถคัดลอกได้อัตโนมัติ กรุณาคลุมดำสูตรและกด Ctrl+C ด้วยตนเองครับ');
+            });
+        }
+    </script>
+</body>
+</html>
