@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel Formula Converter - Pro Edition</title>
+    <title>🐍 Look What You Made Me Do</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,17 +35,17 @@
 
     <div class="max-w-4xl w-full">
         <div class="text-center mb-10">
-            <h1 class="text-4xl font-bold mb-3 tracking-tight">
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-                    Excel Formula
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-400 to-green-500">
+                    🐍 Look What You
                 </span> 
-                <span class="text-white">Converter</span>
+                <span class="text-white">Made Me Do</span>
             </h1>
-            <p class="text-slate-400 font-light tracking-wide">เครื่องมือแปลงสูตรอัตโนมัติ สำหรับลดเวลาและข้อผิดพลาด</p>
+            <p class="text-slate-400 font-light tracking-wide text-lg">เครื่องมือนี้ถูกสร้างขึ้นมาเพราะระบบงานเดิมๆ มันบีบบังคับให้ฉันต้องร้าย!</p>
         </div>
 
         <div class="bg-slate-800/50 backdrop-blur-sm p-1.5 rounded-xl border border-slate-700/50 flex space-x-1 mb-6 shadow-lg shadow-black/20">
-            <button onclick="switchTab('non-cisco')" id="tab-non-cisco" class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/20">
+            <button onclick="switchTab('non-cisco')" id="tab-non-cisco" class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-emerald-600 text-white shadow-lg shadow-emerald-500/20">
                 ⚡ NON-CISCO
             </button>
             <button onclick="switchTab('cisco')" id="tab-cisco" class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50">
@@ -58,7 +58,7 @@
             <div class="bg-slate-800/40 backdrop-blur-md p-6 sm:p-8 rounded-2xl border border-slate-700/50 shadow-xl shadow-black/40">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-3">
                     <h2 class="text-lg font-semibold text-slate-200 flex items-center">
-                        <span id="badgeTab" class="bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider">โหมด: NON-CISCO</span>
+                        <span id="badgeTab" class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider">โหมด: NON-CISCO</span>
                         วางสูตรต้นฉบับ
                     </h2>
                     <span id="formulaHint" class="text-xs text-slate-400 font-mono bg-slate-900/50 px-3 py-1.5 rounded-md border border-slate-700">
@@ -66,10 +66,10 @@
                     </span>
                 </div>
                 
-                <textarea id="inputFormula" rows="5" class="w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner" placeholder="วางสูตร Excel ที่ต้องการแปลงที่นี่..."></textarea>
+                <textarea id="inputFormula" rows="5" class="w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner" placeholder="วางสูตร Excel ที่ต้องการแปลงที่นี่..."></textarea>
                 
                 <div class="mt-5 flex justify-end">
-                    <button id="actionBtn" onclick="processFormula()" class="btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-blue-500/25">
+                    <button id="actionBtn" onclick="processFormula()" class="btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 shadow-emerald-500/25">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         แปลงสูตรอัตโนมัติ
                     </button>
@@ -111,18 +111,18 @@
             resetOutput();
 
             if (tabName === 'non-cisco') {
-                // UI แท็บ NON-CISCO
-                tabNonCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-blue-600 text-white shadow-lg shadow-blue-500/20';
+                // UI แท็บ NON-CISCO (โทน Emerald)
+                tabNonCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-emerald-600 text-white shadow-lg shadow-emerald-500/20';
                 tabCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50';
                 
                 badgeTab.innerText = 'โหมด: NON-CISCO';
-                badgeTab.className = 'bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider';
+                badgeTab.className = 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-medium mr-3 px-2.5 py-1 rounded-md tracking-wider';
                 formulaHint.innerText = '($M$แถว*$Q$แถว) ➡️ ($M$แถว+1*$Q$16)';
                 
-                actionBtn.className = 'btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 shadow-blue-500/25 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-900';
-                inputFormula.className = 'w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner';
+                actionBtn.className = 'btn-press w-full sm:w-auto px-8 py-3 rounded-xl font-medium text-white transition-all duration-300 hover:-translate-y-0.5 shadow-lg flex items-center justify-center bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 shadow-emerald-500/25 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900';
+                inputFormula.className = 'w-full p-5 border border-slate-600 rounded-xl focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 outline-none font-mono text-sm bg-[#0B1120] text-slate-300 placeholder-slate-600 transition-all shadow-inner';
             } else {
-                // UI แท็บ CISCO
+                // UI แท็บ CISCO (โทน Purple เพื่อให้ดูต่างกัน)
                 tabCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 bg-purple-600 text-white shadow-lg shadow-purple-500/20';
                 tabNonCisco.className = 'flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-300 text-slate-400 hover:text-slate-200 hover:bg-slate-700/50';
                 
@@ -163,7 +163,7 @@
                 const replacement = `($$M$$${newMRow}*$$Q$$${newQRow})`;
                 const updatedFormula = formula.replace(regex, replacement);
                 
-                showResult(updatedFormula, 'blue');
+                showResult(updatedFormula, 'emerald');
             } else {
                 showError('❌ ตรวจไม่พบส่วนท้ายสูตรที่เป็นรูปแบบ ($M$แถว*$Q$แถว)');
             }
@@ -193,11 +193,11 @@
             outputContainer.innerText = resultText;
             copyBtn.classList.remove('hidden');
 
-            // ใช้สไตล์ Glassmorphism ในผลลัพธ์ที่สำเร็จ
             if (colorTheme === 'purple') {
                 outputContainer.className = "p-5 border rounded-xl font-mono text-sm break-all text-left flex items-start justify-start border-purple-500/40 bg-purple-900/10 text-purple-200 shadow-inner transition-all";
             } else {
-                outputContainer.className = "p-5 border rounded-xl font-mono text-sm break-all text-left flex items-start justify-start border-blue-500/40 bg-blue-900/10 text-blue-200 shadow-inner transition-all";
+                // อัปเดตสีผลลัพธ์เป็น Emerald
+                outputContainer.className = "p-5 border rounded-xl font-mono text-sm break-all text-left flex items-start justify-start border-emerald-500/40 bg-emerald-900/10 text-emerald-200 shadow-inner transition-all";
             }
         }
 
@@ -225,7 +225,6 @@
             navigator.clipboard.writeText(outputText).then(() => {
                 const originalHtml = copyBtn.innerHTML;
                 
-                // เปลี่ยนสถานะปุ่มเป็นสีเขียวชั่วคราว
                 copyBtn.innerHTML = '<svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> คัดลอกแล้ว!';
                 copyBtn.classList.replace('bg-slate-700', 'bg-emerald-600/90');
                 copyBtn.classList.replace('hover:bg-slate-600', 'hover:bg-emerald-500');
